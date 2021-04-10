@@ -1,8 +1,7 @@
 <template lang="pug">
   section.columns.is-desktop
-    div(v-for="pokemon in pokemon_list" :key="pokemon.name")
-      Card(:title="pokemon.name" :url="pokemon.url")
-
+    div(v-for="pokemon in pokemon_list" :key="pokemon.id")
+      Card(:poke_id="pokemon.id" :title="pokemon.name" :url="pokemon.url")
 </template>
 
 <script>
@@ -15,16 +14,13 @@ export default {
   },
   data () {
     return {
-      pokemon_list: this.$store.state.pokemon.pokemon
+      pokemon_list: this.$store.state.pokemon.pokemons_list
     }
   },
   computed: {
     ...mapState(['pokemon']),
   },
   methods: {
-    ...mapMutations('pokemon', [
-      'addPokemons'
-    ]),
     ...mapActions('pokemon', [
       'getPokemonList'
     ])

@@ -1,19 +1,9 @@
-<template>
-  <div class="column">
-    <div class="card">
-      <header class="card-header">
-        <p class="card-header-title has-text-grey-darker">
-          {{ title }}
-        </p>
-      </header>
-      <a class="has-text-grey-darker">
-        {{ url }}
-      </a>
-      <a class="has-text-grey-darker">
-        {{ poke_id }}
-      </a>
-    </div>
-  </div>
+<template lang="pug">
+  div.column
+    div.card
+      header.card-header
+        p.card-header-title.has-text-grey-darker {{ poke_id }}. {{ title }}
+      a.has-text-grey-darker {{ url }}
 </template>
 
 <script>
