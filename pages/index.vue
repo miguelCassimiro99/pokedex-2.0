@@ -1,7 +1,7 @@
 <template lang="pug">
   section.columns.is-desktop
     div(v-for="pokemon in pokemon_list" :key="pokemon.id")
-      Card(:poke_id="pokemon.id" :title="pokemon.name" :url="pokemon.url")
+      Card(:pokemonId="pokemon.id" :title="pokemon.name" :url="pokemon.url" :pokemonImageUrl="pokemon.image_url")
 </template>
 
 <script>

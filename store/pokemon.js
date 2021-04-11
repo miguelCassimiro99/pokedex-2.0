@@ -5,7 +5,8 @@ export const state = () => ({
   pokemon: {
     name: '',
     url: '',
-    id: null
+    id: null,
+    image_url: ''
   },
 
   poke_blank: {
@@ -27,6 +28,9 @@ export const actions = {
           commit('updatePokemonUrl', pokemon.url)
           let pokeIndex = pokemon.url.split('/')[pokemon.url.split('/').length - 2]
           commit('updatePokemonId', pokeIndex)
+          // alternative images
+          // commit('updatePokemonImageUrl', `https://pokeres.bastionbot.org/images/pokemon/${pokeIndex}.png`)
+          commit('updatePokemonImageUrl', `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeIndex}.png?raw=true`)
 
           commit('addPokemonToList', state.pokemon)
           commit('destroyPokemon')
@@ -46,6 +50,9 @@ export const mutations = {
   },
   updatePokemonId (state, id) {
     state.pokemon.id = id
+  },
+  updatePokemonImageUrl (state, imageUrl) {
+    state.pokemon.image_url = imageUrl
   },
 
   addPokemonToList(state, pokemon) {
