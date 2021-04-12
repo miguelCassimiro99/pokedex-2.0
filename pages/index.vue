@@ -1,7 +1,15 @@
 <template lang="pug">
-  section.columns.is-desktop
-    div(v-for="pokemon in pokemon_list" :key="pokemon.id")
-      Card(:pokemonId="pokemon.id" :title="pokemon.name" :url="pokemon.url" :pokemonImageUrl="pokemon.image_url")
+  section.container.is-fluid
+    div.columns.is-12.is-flex.is-flex-direction-row.is-flex-wrap-wrap.is-justify-items-center.is-align-items-center
+      div.column.is-one-quarter.is-half-mobile(v-for="pokemon in pokemon_list" :key="pokemon.id")
+        Card(
+          :pokemonId="pokemon.id"
+          :title="pokemon.name"
+          :url="pokemon.url"
+          :pokemonImageUrl="pokemon.image_url"
+          tag="router-link"
+          to="`/pokemon/${pokemon.id}`"
+        )
 </template>
 
 <script>
@@ -26,6 +34,8 @@ export default {
     ])
   },
   mounted () {
+    // needs to  empty pokemon_list first - make the muttation
+    this.$store.commit('pokemon/destroyPokemonList')
     this.$store.dispatch('pokemon/getPokemonList')
   }
 
