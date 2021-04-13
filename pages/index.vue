@@ -35,8 +35,12 @@ export default {
   },
   mounted () {
     // needs to  empty pokemon_list first - make the muttation
-    this.$store.commit('pokemon/destroyPokemonList')
-    this.$store.dispatch('pokemon/getPokemonList')
+    if (this.$store.state.pokemon.pokemons_list.length > 0) {
+      this.$store.commit('pokemon/destroyPokemonList')
+      this.$store.dispatch('pokemon/getPokemonList')
+    } else {
+      this.$store.dispatch('pokemon/getPokemonList')
+    }
   }
 
 }
