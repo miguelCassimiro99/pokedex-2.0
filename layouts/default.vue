@@ -6,10 +6,7 @@
       aria-label="main navigation"
     )
       div.ml-4(class="navbar-brand")
-        figure.image.is-128x128
-          img(
-            src="https://logodownload.org/wp-content/uploads/2017/08/pokemon-logo-1.png"
-          )
+       a(href="/") Pokedex
     div
       nuxt
 </template>
