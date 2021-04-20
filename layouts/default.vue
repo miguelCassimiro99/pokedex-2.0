@@ -1,12 +1,15 @@
 <template lang="pug">
   div.main
-    nav(
+    nav.main-navbar(
       class="navbar header is-danger"
       role="navigation"
       aria-label="main navigation"
     )
       div.ml-4(class="navbar-brand")
-       a(href="/") Pokedex
+        a(
+          class="navbar-item"
+          href="/"
+        ) Pokedex
     div
       nuxt
 </template>
@@ -32,7 +35,7 @@ export default {
 }
 </script>
 <style lang="sass">
-nav
+.main-navbar
   background-color: #ef5350!important
 
 .main
