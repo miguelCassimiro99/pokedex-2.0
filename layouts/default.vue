@@ -1,6 +1,6 @@
 <template lang="pug">
   div.main
-    nav.main-navbar(
+    nav.main-navbar.is-hidden-mobile(
       class="navbar header is-danger"
       role="navigation"
       aria-label="main navigation"
@@ -44,8 +44,7 @@ export default {
   background-repeat: repeat
   background-color: #ef5350
   background-image: url("static/pattern.png")
-
   min-width: 100vw
-  max-width: 100vw
+  max-width: 100vw!important
   min-height: 100vh
 </style>
