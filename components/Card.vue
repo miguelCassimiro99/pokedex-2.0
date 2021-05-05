@@ -1,11 +1,11 @@
 <template lang="pug">
-  div.column
     div.card
-      header.card-header.has-text-centered
-        figure.image.mx-auto
-          img.is-rounded.pokemon-image( :src="pokemonImageUrl")
-      div.card-content.mx-auto
-        div.content.is-capitalized {{ pokemonId }}. {{ title }}
+      nuxt-link.link-pokemon(:to="`pokemon/${ pokemonId }`")
+        header.card-header.has-text-centered.is-flex.is-justify-content-center
+          figure.image
+            img.is-rounded.pokemon-image( :src="pokemonImageUrl")
+        div.card-content.mx-auto
+          div.content.is-capitalized.has-text-centered {{ title }}
 </template>
 
 <script>
@@ -26,8 +26,7 @@ export default {
     pokemonImageUrl: {
       type: String,
       required: false
-    }
-
+    },
   }
 }
 </script>
@@ -49,11 +48,22 @@ img
     box-shadow: 0 14px 29px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)
 
 .pokemon-image
-  height: 5em!important
-  width: 5em!important
+  height: 8em!important
+  width: 8em!important
   -webkit-user-select: none
   -khtml-user-select: none
   -moz-user-select: none
   -o-user-select: none
   user-select: none!important
+
+.link-pokemon
+  text-decoration: none
+  color: black
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active
+    text-decoration: none
+
 </style>

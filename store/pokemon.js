@@ -61,5 +61,9 @@ export const mutations = {
 
   destroyPokemon (state) {
     state.pokemon = {...state.poke_blank}
+  },
+
+  destroyPokemonList (state) {
+    state.pokemons_list = []
   }
 }

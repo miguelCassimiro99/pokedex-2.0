@@ -1,7 +1,19 @@
 <template lang="pug">
-  section.columns.is-desktop
-    div(v-for="pokemon in pokemon_list" :key="pokemon.id")
-      Card(:pokemonId="pokemon.id" :title="pokemon.name" :url="pokemon.url" :pokemonImageUrl="pokemon.image_url")
+  section.container.is-fluid
+    b-loading(
+      :is-full-page="isFullPageLoading"
+      v-model="isLoadingPage"
+    )
+    div.columns.is-12.is-flex.is-flex-direction-row.is-flex-wrap-wrap.is-justify-items-center.is-align-items-center
+      div.column.is-one-quarter.is-half-mobile(v-for="pokemon in pokemon_list" :key="pokemon.id")
+        Card(
+          :pokemonId="pokemon.id"
+          :title="pokemon.name"
+          :url="pokemon.url"
+          :pokemonImageUrl="pokemon.image_url"
+          tag="router-link"
+          to="`/pokemon/${pokemon.id}`"
+        )
 </template>
 
 <script>
@@ -14,7 +26,9 @@ export default {
   },
   data () {
     return {
-      pokemon_list: this.$store.state.pokemon.pokemons_list
+      pokemon_list: this.$store.state.pokemon.pokemons_list,
+      isFullPageLoading: true,
+      isLoadingPage: true,
     }
   },
   computed: {
@@ -26,8 +40,19 @@ export default {
     ])
   },
   mounted () {
-    this.$store.dispatch('pokemon/getPokemonList')
+    // needs to  empty pokemon_list first - make the muttation
+    this.isLoadingPage = true
+    if (this.$store.state.pokemon.pokemons_list.length > 0) {
+      this.$store.commit('pokemon/destroyPokemonList')
+      this.$store.dispatch('pokemon/getPokemonList')
+    } else {
+      this.$store.dispatch('pokemon/getPokemonList')
+    }
+    this.isLoadingPage = false
   }
 
 }
 </script>
+<style lang="sass" scoped>
+
+</style>
