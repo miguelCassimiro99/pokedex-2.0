@@ -1,21 +1,18 @@
 <template lang="pug">
-  b-taglist.is-flex.is-justify-content-flex-start
-    b-tag.is-hidden-mobile(
-      v-for="type in pokemon_types"
-      :key="type.name"
-      :class="`${ type.name }`"
-      rounded
-      size="is-medium"
-    )
-      span {{ type.name }}
-    b-tag.is-hidden-desktop(
-      v-for="type in pokemon_types"
-      :key="type.name"
-      :class="`${ type.name }`"
-      rounded
-      size="is-small"
-    )
-      span {{ type.name }}
+  section
+    b-taglist.is-flex.is-justify-content-flex-start(v-for="type in pokemon_types" :key="type.name")
+      b-tag.is-hidden-mobile(
+        :class="`${ type.name }`"
+        rounded
+        size="is-medium"
+      )
+        span {{ type.name }}
+      b-tag.is-hidden-desktop(
+        :class="`${ type.name }`"
+        rounded
+        size="is-small"
+      )
+        span {{ type.name }}
 </template>
 <script>
 export default {
