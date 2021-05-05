@@ -21,7 +21,7 @@
               )
             b-tab-item(label="Base Stats")
               BarStats(
-                :isBarLoading="isBarLoading"
+                :isBarLoading="isLoadingPage"
                 :health_points="pokemon.base_stats.hp"
                 :attack="pokemon.base_stats.ap"
                 :special_attack="pokemon.base_stats.sa"
@@ -33,8 +33,10 @@
               PokemonMoves(:moves="pokemon.moves")
             b-tab-item(label="Evolutions")
               EvolutionChain(
+                v-if="this.evolutions && this.evolutions.length"
                 :evolution_chain="pokemon.evolution_chain"
               )
+              p.subtitle.is-4(v-else) nothing to show
 
 </template>
 <script>
@@ -59,53 +61,22 @@ export default {
 
       isFullPageLoading: true,
       isLoadingPage: true,
+      pokemonMockup: null,
+      evolutions: null,
       pokemon: {
-        name: 'bubassaur',
+        name: null,
         img: 'https://pokeres.bastionbot.org/images/pokemon/1.png',
-        types: [
-          { name: 'grass' },
-          { name: 'poison' }
-        ],
-        arrayTest: [
-          {
-            height: 7,
-            weight: 69,
-            shape: 'quadruped',
-            egg_groups: [
-              { name: 'monster' },
-              { name: 'plant' }
-            ],
-            abilities: [
-              { name: 'overgrow' },
-              { name: 'chlorophyll' }
-            ]
-          }
-        ],
+        types: [],
+        arrayTest: [],
         base_stats: {
-          hp: 45,
-          ap: 49,
-          dp: 49,
-          sa: 65,
-          sd: 65,
-          sp: 45
+          hp: 0,
+          ap: 0,
+          sa: 0,
+          dp: 0,
+          sd: 0,
+          sp: 0
         },
-        moves: [
-          { name: 'razor-wind' },
-          { name: 'swords-dance' },
-          { name: 'cut' },
-          { name: 'double-team' },
-          { name: 'defense-curl' },
-          { name: 'de4erfense-curl' },
-          { name: 'defe3nse-curl' },
-          { name: 'defese-curl' },
-          { name: 'defee-curl' },
-          { name: 'defe88nse-curl' },
-          { name: 'defeffnse-curl' },
-          { name: 'defenserwee-curl' },
-          { name: 'defen4se-curl' },
-          { name: 'defense-cssurl' },
-          { name: 'defewnse-curl' }
-        ],
+        moves: [],
         evolution_chain: [
           { name: 'bubassaur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' },
           { name: 'ivysauur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' },
@@ -117,18 +88,74 @@ export default {
   },
   mounted () {
     this.isLoadingPage = true
+    this.loadPokemonImage(this.pokemonId)
     this.loadPokemon(this.pokemonId)
+    this.loadEvolutionChain(this.pokemonId)
     this.isLoadingPage = false
   },
   methods: {
-    loadPokemon (id) {
+    loadPokemonImage (id) {
+      this.pokemon.img = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
+    },
+
+    async loadPokemon (id) {
+      this
+        .$axios
+        .get('https://pokeapi.co/api/v2/pokemon/' + id)
+        .then(res => {
+          this.pokemonMockup = res.data
+          // name
+          this.pokemon.name = this.pokemonMockup.name
+          // types
+          this.pokemonMockup.types.forEach(slot => {
+            let type = { name: null }
+            type.name = slot.type.name
+            this.pokemon.types.push(type)
+          })
+          // about
+          let aboutArray = {
+            height: null,
+            weight: null,
+            abilities: []
+          }
+          aboutArray.height = this.pokemonMockup.height
+          aboutArray.weight = this.pokemonMockup.weight
+          this.pokemonMockup.abilities.forEach(a => {
+            let ab = { name: null }
+            ab.name = a.ability.name
+            aboutArray.abilities.push(ab)
+          })
+          this.pokemon.arrayTest.push(aboutArray)
+
+          // stats
+          this.pokemon.base_stats.hp = this.pokemonMockup.stats[0].base_stat
+          this.pokemon.base_stats.ap = this.pokemonMockup.stats[1].base_stat
+          this.pokemon.base_stats.sa = this.pokemonMockup.stats[2].base_stat
+          this.pokemon.base_stats.dp = this.pokemonMockup.stats[3].base_stat
+          this.pokemon.base_stats.sd = this.pokemonMockup.stats[4].base_stat
+          this.pokemon.base_stats.sp = this.pokemonMockup.stats[5].base_stat
+
+          //moves
+          this.pokemonMockup.moves.forEach(m => {
+            let move = { name: null }
+            move.name = m.move.name
+
+            this.pokemon.moves.push(move)
+          })
+        })
+        .catch(err => console.log(err))
+    },
+
+    async loadEvolutionChain (id) {
       this
         .$axios
         .get('https://pokeapi.co/api/v2/pokemon-species/' + id)
-        .then(res => console.log(res.data))
+        .then(res => {
+          this.evolutions = res.data.evolution_chain.url
+        })
         .catch(err => console.log(err))
     }
-  },
+  }
 }
 </script>
 <style lang="sass" scoped>
