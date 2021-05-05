@@ -46,6 +46,8 @@ import BarStats from '@/components/BarStats'
 import PokemonMoves from '@/components/PokemonMoves'
 import EvolutionChain from '@/components/EvolutionChain'
 
+import { mapActions } from 'vuex'
+
 export default {
   components: {
     PokemonImage,
@@ -62,7 +64,10 @@ export default {
       isFullPageLoading: true,
       isLoadingPage: true,
       pokemonMockup: null,
-      evolutions: null,
+      hasSpecies: false,
+      evolutions: {
+        url: null
+      },
       pokemon: {
         name: null,
         img: 'https://pokeres.bastionbot.org/images/pokemon/1.png',
@@ -77,11 +82,8 @@ export default {
           sp: 0
         },
         moves: [],
-        evolution_chain: [
-          { name: 'bubassaur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' },
-          { name: 'ivysauur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' },
-          { name: 'venasaur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' }
-        ]
+        evolution_chain: [],
+        chain: null
       },
       isBarLoading: false
     }
@@ -89,16 +91,23 @@ export default {
   mounted () {
     this.isLoadingPage = true
     this.loadPokemonImage(this.pokemonId)
+    // this.$store.dispatch('pokemon/getPokemonSpecies', this.pokemonId)
+    // this.$store.dispatch('pokemon/getEvolutionChain')
     this.loadPokemon(this.pokemonId)
-    this.loadEvolutionChain(this.pokemonId)
+
     this.isLoadingPage = false
   },
+
   methods: {
+    ...mapActions('pokemon', [
+      'getPokemonSpecies',
+      'getEvolutionChain'
+    ]),
     loadPokemonImage (id) {
       this.pokemon.img = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
     },
 
-    async loadPokemon (id) {
+    loadPokemon (id) {
       this
         .$axios
         .get('https://pokeapi.co/api/v2/pokemon/' + id)
@@ -142,16 +151,6 @@ export default {
 
             this.pokemon.moves.push(move)
           })
-        })
-        .catch(err => console.log(err))
-    },
-
-    async loadEvolutionChain (id) {
-      this
-        .$axios
-        .get('https://pokeapi.co/api/v2/pokemon-species/' + id)
-        .then(res => {
-          this.evolutions = res.data.evolution_chain.url
         })
         .catch(err => console.log(err))
     }

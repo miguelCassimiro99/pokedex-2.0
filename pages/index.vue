@@ -5,7 +5,7 @@
       v-model="isLoadingPage"
     )
     div.columns.is-12.is-flex.is-flex-direction-row.is-flex-wrap-wrap.is-justify-items-center.is-align-items-center
-      div.column.is-one-quarter.is-half-mobile(v-for="pokemon in pokemon_list" :key="pokemon.id")
+      div.column.is-one-quarter.is-half-mobile.mt-1(v-for="pokemon in pokemon_list" :key="pokemon.id")
         Card(
           :pokemonId="pokemon.id"
           :title="pokemon.name"
