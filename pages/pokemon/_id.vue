@@ -1,5 +1,9 @@
 <template lang="pug">
-  section.container.is-fluid.is-family-sans-serif#main-content.mt-3
+  section#main-content.container.is-fluid.is-family-sans-serif.mt-3
+    b-loading(
+      :is-full-page="isFullPageLoading"
+      v-model="isLoadingPage"
+    )
     div.columns.is-12.is-8-mobile.has-text-centered
       div#pokemon-profile.column.is-5
         PokemonImage(
@@ -28,11 +32,9 @@
             b-tab-item(label="Moves")
               PokemonMoves(:moves="pokemon.moves")
             b-tab-item(label="Evolutions")
-              h1.title.is-6 evolution
-    // div.columns.is-12.has-text-centered
-    //   div#pokemon-evolve-chain.column.is-hidden-mobile
-    //     section.box
-    //       h1.title.is-5 Hello World Pokemon
+              EvolutionChain(
+                :evolution_chain="pokemon.evolution_chain"
+              )
 
 </template>
 <script>
@@ -40,17 +42,23 @@ import PokemonImage from '@/components/PokemonImage'
 import TableStats from '@/components/TableStats'
 import BarStats from '@/components/BarStats'
 import PokemonMoves from '@/components/PokemonMoves'
-
+import EvolutionChain from '@/components/EvolutionChain'
 
 export default {
   components: {
     PokemonImage,
     TableStats,
     BarStats,
-    PokemonMoves
+    PokemonMoves,
+    EvolutionChain
+
   },
   data () {
     return {
+      pokemonId: this.$route.params.id,
+
+      isFullPageLoading: true,
+      isLoadingPage: true,
       pokemon: {
         name: 'bubassaur',
         img: 'https://pokeres.bastionbot.org/images/pokemon/1.png',
@@ -99,14 +107,28 @@ export default {
           { name: 'defewnse-curl' }
         ],
         evolution_chain: [
-          'bubassaur',
-          'ivysauur',
-          'venasaur'
+          { name: 'bubassaur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' },
+          { name: 'ivysauur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' },
+          { name: 'venasaur', img: 'https://pokeres.bastionbot.org/images/pokemon/1.png' }
         ]
       },
       isBarLoading: false
     }
-  }
+  },
+  mounted () {
+    this.isLoadingPage = true
+    this.loadPokemon(this.pokemonId)
+    this.isLoadingPage = false
+  },
+  methods: {
+    loadPokemon (id) {
+      this
+        .$axios
+        .get('https://pokeapi.co/api/v2/pokemon-species/' + id)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
+    }
+  },
 }
 </script>
 <style lang="sass" scoped>

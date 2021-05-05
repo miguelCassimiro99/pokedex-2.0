@@ -6,13 +6,14 @@
           img(:src="pokemonImageUrl")
       div.mt-3
         h3.title.is-3.is-size-5-mobile.is-capitalized.has-text-weight-medium.has-text-grey-darker {{ pokemonName }}
-        b-taglist.is-flex.is-justify-content-flex-start
-          b-tag.is-hidden-mobile(v-for="type in pokemonTypes" :key="type.name"   type="is-success" rounded size="is-medium") {{ type.name }}
-        b-taglist.is-flex.is-justify-content-flex-start.is-hidden-desktop
-          b-tag.is-hidden-desktop(v-for="type in pokemonTypes" :key="type.name"   type="is-success" rounded size="is-small") {{ type.name }}
+        TypeTags(:pokemon_types="pokemonTypes")
 </template>
 <script>
+import TypeTags from '@/components/TypeTags'
 export default {
+  components: {
+    TypeTags
+  },
   props: {
     pokemonImageUrl: {
       type: String,
