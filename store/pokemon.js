@@ -1,6 +1,8 @@
 export const state = () => ({
   url: 'https://pokeapi.co/api/v2/pokemon',
   pokemons_list: [],
+  evolution_chain_url: '',
+  chainReceived: [],
 
   pokemon: {
     name: '',
@@ -18,9 +20,9 @@ export const state = () => ({
 
 // actions
 export const actions = {
-  async getPokemonList ({ state, commit }) {
+  async getPokemonList ({ state, commit }, params) {
 
-    const res = await this.$axios.get(this.state.pokemon.url)
+    const res = await this.$axios.get(this.state.pokemon.url, { params} )
       .then((res) => {
         const tempArray = res.data.results
         tempArray.forEach(pokemon => {
@@ -36,6 +38,21 @@ export const actions = {
           commit('destroyPokemon')
         })
         console.log(state.pokemons_list)
+      })
+  },
+
+  getPokemonSpecies ({ state, commit }, id) {
+    this.$axios.get('https://pokeapi.co/api/v2/pokemon-species/' + id)
+      .then(res => {
+        commit('updateEvolutionChainUrl', res.data.evolution_chain.url)
+      })
+  },
+
+  getEvolutionChain ({ state, commit }) {
+    this.$axios.get(state.evolution_chain_url)
+      .then(res => {
+        commit('updateChainReceive', res.data.chain)
+        console.log(this.chainReceived)
       })
   }
 }
@@ -61,5 +78,17 @@ export const mutations = {
 
   destroyPokemon (state) {
     state.pokemon = {...state.poke_blank}
+  },
+
+  destroyPokemonList (state) {
+    state.pokemons_list = []
+  },
+
+  updateEvolutionChainUrl(state, url) {
+    state.evolution_chain_url = url
+  },
+
+  updateChainReceive(state, chain) {
+    state.chainReceived = chain
   }
 }

@@ -1,16 +1,16 @@
 <template lang="pug">
   div.main
-    nav(
-      class="navbar header has-shadow is-danger"
+    nav.main-navbar(
+      class="navbar header is-danger"
       role="navigation"
       aria-label="main navigation"
     )
-      div(class="navbar-brand")
+      div.ml-4(class="navbar-brand")
         a(
           class="navbar-item"
           href="/"
         ) Pokedex
-    div( class="container column is-12")
+    div
       nuxt
 </template>
 
@@ -35,13 +35,16 @@ export default {
 }
 </script>
 <style lang="sass">
+.main-navbar
+  background-color: #ef5350!important
+
 .main
   background-attachment: fixed
   background-position: center
   background-repeat: repeat
-  background-color: #fafafa
+  background-color: #ef5350
   background-image: url("static/pattern.png")
-
   min-width: 100vw
+  max-width: 100vw!important
   min-height: 100vh
 </style>
