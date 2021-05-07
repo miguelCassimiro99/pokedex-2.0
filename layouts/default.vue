@@ -1,6 +1,6 @@
 <template lang="pug">
   div.main
-    nav.main-navbar.is-hidden-mobile(
+    nav.main-navbar(
       class="navbar header is-danger"
       role="navigation"
       aria-label="main navigation"

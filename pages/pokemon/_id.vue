@@ -95,7 +95,9 @@ export default {
     // this.$store.dispatch('pokemon/getEvolutionChain')
     this.loadPokemon(this.pokemonId)
 
-    this.isLoadingPage = false
+    setTimeout(() => {
+      this.isLoadingPage = false
+    }, 3000)
   },
 
   methods: {

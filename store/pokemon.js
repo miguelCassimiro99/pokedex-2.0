@@ -20,9 +20,9 @@ export const state = () => ({
 
 // actions
 export const actions = {
-  async getPokemonList ({ state, commit }) {
+  async getPokemonList ({ state, commit }, params) {
 
-    const res = await this.$axios.get(this.state.pokemon.url)
+    const res = await this.$axios.get(this.state.pokemon.url, { params} )
       .then((res) => {
         const tempArray = res.data.results
         tempArray.forEach(pokemon => {
