@@ -3,6 +3,8 @@
 ## 📋 Project Description
 <p align="center">This project was thought of as a new version of another repository that I did while learning about the Axios library. So, to give continuity to this, a new Front was implemented using the Nuxt.js framework with components from the Buefy library. The project is still under development, there are still some features to be brought but the result is already very cool.  </p>
 
+<p align="center">👀 You can see the result <a href="https://nuxt-pokedex.herokuapp.com/">here</a></p>
+
 <p align="center">❗<strong>Note: I do not own the Pokémon franchise, the API consumed for displaying the data is PokeAPI, which you can access via the </strong> <a href="https://pokeapi.co">link</a></p>
   
 <p align="center">❗<strong>This project was built for teaching purposes only</strong></p>
