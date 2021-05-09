@@ -36,7 +36,7 @@
                 v-if="this.evolutions && this.evolutions.length"
                 :evolution_chain="pokemon.evolution_chain"
               )
-              p.subtitle.is-4(v-else) nothing to show
+              p.subtitle.is-4(v-else) on development
 
 </template>
 <script>
